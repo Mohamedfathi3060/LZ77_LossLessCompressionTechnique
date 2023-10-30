@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Scanner;
 import java.io.FileWriter;
 
@@ -25,6 +26,7 @@ public class Main {
         return res ;
     }
     public static void comp(File file){
+        String result = "";
         try{
             Scanner read  = new Scanner(file);
             String data ="";
@@ -35,9 +37,7 @@ public class Main {
             // A B A A B A B A A B B B B B B B B B B B B A
             int  i = 0 ;
             int  j = i ;
-            String result = "";
             while( i  < data.length() ){
-
                 int prev  = -1 ;
                 int x = -1;
                 do{
@@ -51,12 +51,19 @@ public class Main {
                 i = j ;
 
             }
-            System.out.println(result);
-
-
+            //System.out.println(result);
         }
         catch (FileNotFoundException e){
-            e.printStackTrace();
+            System.out.println("File Not Found");
+        }
+        try{
+            FileWriter f = new FileWriter("Compress_Result.txt",false);
+            f.write(result);
+            f.close();
+
+        }
+        catch (IOException e){
+            System.out.println("File Not Found");
         }
     }
     public static void deComp(File file){
@@ -86,24 +93,47 @@ public class Main {
 
         }
         catch (FileNotFoundException e ){
-            e.printStackTrace();
+            System.out.println("File Not Found");
         }
         try{
-            FileWriter f = new FileWriter("result.txt",false);
+            FileWriter f = new FileWriter("Decompress_Result.txt",false);
             f.write(data);
             f.close();
 
         }
         catch (IOException e){
-            e.printStackTrace();
+            System.out.println("File Not Found");
         }
 
 
 
     }
     public  static void main(String[] args) {
-        File f = new File("test.txt");
-        deComp(f);
+        String answer = "exit",fileName = "test.txt";
+        System.out.println("☼ Welcome:) ☼");
+        System.out.println("☼ What you want to do ? ☼");
+        while (true) {
+            System.out.println("☼ 1-Compression");
+            System.out.println("☼ 2-Decompression");
+            System.out.println("☼ 0-exit");
+            System.out.print(">>>>>>>>>>  ");
+            Scanner read = new Scanner(System.in);
+            answer = read.nextLine();
+            if (answer.equalsIgnoreCase("1") || answer.equalsIgnoreCase("Compression")) {
+                System.out.print("☼ Please Enter File Name You Want to Compress: ");
+                fileName = read.nextLine();
+                File file = new File(fileName);
+                comp(file);
+            } else if (answer.equalsIgnoreCase("2") || answer.equalsIgnoreCase("Decompression")) {
+                System.out.print("☼ Please Enter File Name You Want to Decompress: ");
+                fileName = read.nextLine();
+                File file = new File(fileName);
+                deComp(file);
+            } else {
+                System.out.println("☼ Exiting ☼ ");
+                break;
+            }
+        }
         //  comp or deComp ?
         // take file name
         // validate file name
